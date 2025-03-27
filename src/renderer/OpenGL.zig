@@ -2622,7 +2622,7 @@ const GLState = struct {
         // This avoids having a blurry border where transparency is expected on
         // pixels.
         try gl.enable(gl.c.GL_BLEND);
-        try gl.blendFunc(gl.c.GL_ONE, gl.c.GL_ONE_MINUS_SRC_ALPHA);
+        try gl.blendFunc(gl.c.GL_SRC_ALPHA, gl.c.GL_ONE_MINUS_SRC_ALPHA);
 
         // Build our texture
         const tex = try gl.Texture.create();
@@ -2644,6 +2644,9 @@ const GLState = struct {
                 font_grid.atlas_grayscale.data.ptr,
             );
         }
+
+        try gl.enable(gl.c.GL_BLEND);
+        try gl.blendFunc(gl.c.GL_SRC_ALPHA, gl.c.GL_ONE_MINUS_SRC_ALPHA);
 
         // Build our color texture
         const tex_color = try gl.Texture.create();

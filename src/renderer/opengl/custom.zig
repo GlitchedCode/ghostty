@@ -67,6 +67,9 @@ pub const State = struct {
             try programs.append(try Program.init(src));
         }
 
+        try gl.enable(gl.c.GL_BLEND);
+        try gl.blendFunc(gl.c.GL_SRC_ALPHA, gl.c.GL_ONE_MINUS_SRC_ALPHA);
+
         // Create the texture for the framebuffer
         const fb_tex = try gl.Texture.create();
         errdefer fb_tex.destroy();
@@ -78,11 +81,11 @@ pub const State = struct {
             try texbind.parameter(.MagFilter, gl.c.GL_LINEAR);
             try texbind.image2D(
                 0,
-                .rgb,
+                .rgba,
                 1,
                 1,
                 0,
-                .rgb,
+                .rgba,
                 .UnsignedByte,
                 null,
             );
@@ -167,11 +170,11 @@ pub const State = struct {
         const texbind = try self.fb_texture.bind(.@"2D");
         try texbind.image2D(
             0,
-            .rgb,
+            .rgba,
             @intCast(size.screen.width),
             @intCast(size.screen.height),
             0,
-            .rgb,
+            .rgba,
             .UnsignedByte,
             null,
         );
